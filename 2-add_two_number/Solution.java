@@ -68,4 +68,5 @@ public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 2. 不用直接计算个十位上的数字，直接将对应节点值取出并引入sum即可。
 3. l1==null?null:l1.next 的写法实在智障，if (p != null) p = p.next 即可。
 
+
 /*
