@@ -27,3 +27,26 @@ class Solution {
         return res;
     }
 }
+
+
+/*
+最优解
+
+
+public static String longestCommonPrefix(String[] strs) {
+        int count = strs.length;
+        String prefix = "";
+        if(count != 0){
+            prefix = strs[0];
+        }
+        for(int i=0; i<count; i++){
+            //关键代码，不断的从后往前截取字符串，然后与之相比，直到startsWith()返回true
+            while(!strs[i].startsWith(prefix)){
+                prefix = prefix.substring(0, prefix.length()-1);
+            }
+        }
+        return prefix;
+    }
+
+同样也是n2复杂度，不过相比较而言更加优雅。
+*/
