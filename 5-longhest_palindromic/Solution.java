@@ -1,50 +1,67 @@
-import java.util.*;
-
 class Solution {
     public String longestPalindrome(String s) {
-
-        Map<Integer, String> maxToStr = new HashMap<Integer, String>();
-        maxToStr.put(0, "");
-
-        int max=0;
+        String result = "";
+        int i;
         int len = s.length();
-        for (int i=0; i<len; i++){
-            int j=1;
-            int t_max = 1;
-            maxToStr.put(t_max, s.substring(i, i+1));
-            while (i-j>=0 && i+j<len) {
-                if (s.charAt(i-j) == s.charAt(i+j)) {
-                    t_max += 2;
-                    maxToStr.put(t_max, s.substring(i-j, i+j+1));
+
+        for (i=0; i<len; i++) {
+            String target = "" + s.charAt(i);
+            int k=i-1;
+            int j=i+1;
+            while (j<len && s.charAt(i) == s.charAt(j)){
+                target = target + s.charAt(j);
+                j++;
+            }
+            while (k>=0 && j<len) {
+                if (s.charAt(k) == s.charAt(j)) {
+                    target = s.charAt(k) + target + s.charAt(j);
+                    k--;
                     j++;
-                } else break;
-            }
-            max = Math.max(max, t_max);
-        }
-
-        for (int i=0; i<len-1; i++) {
-            if (s.charAt(i) == s.charAt(i+1)) {
-                int j=1;
-                int t_max = 2;
-                maxToStr.put(t_max, s.substring(i, i+2));
-                while(i-j>=0 && i+j+1<len) {
-                    if (s.charAt(i-j) == s.charAt(i+j+1)) {
-                        t_max += 2;
-                        maxToStr.put(t_max, s.substring(i-j, i+j+2));
-                        j++;
-                    } else break;
                 }
-                max = Math.max(max, t_max);
+                else break;
+            }
+
+            if (target.length() > result.length()) {
+                result = target;
             }
         }
 
-
-        return maxToStr.get(max);
+        return result;
     }
 
     public static void main(String[] args) {
-        Solution s = new Solution();
-        String a = s.longestPalindrome("cbbd");
-        System.out.println(a);
+        Solution solution = new Solution();
+        System.out.println(solution.longestPalindrome("abbc"));
     }
 }
+
+
+
+// 自认为解法无误，时间复杂度为n2
+
+/*
+中心扩展法
+public String longestPalindrome(String s) {
+    if (s == null || s.length() < 1) return "";
+    int start = 0, end = 0;
+    for (int i = 0; i < s.length(); i++) {
+        int len1 = expandAroundCenter(s, i, i);
+        int len2 = expandAroundCenter(s, i, i + 1);
+        int len = Math.max(len1, len2);
+        if (len > end - start) {
+            start = i - (len - 1) / 2;
+            end = i + len / 2;
+        }
+    }
+    return s.substring(start, end + 1);
+}
+
+private int expandAroundCenter(String s, int left, int right) {
+    int L = left, R = right;
+    while (L >= 0 && R < s.length() && s.charAt(L) == s.charAt(R)) {
+        L--;
+        R++;
+    }
+    return R - L - 1;
+}
+*/
