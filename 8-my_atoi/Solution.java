@@ -30,3 +30,4 @@ class Solution {
         System.out.println(solution.myAtoi("-01324000"));
     }
 }
+
