@@ -43,3 +43,20 @@ class Solution {
 
 
 // 时间复杂度O(n) 空间复杂度O(1)
+
+// 递归实现
+/*
+    public ListNode reverseList(ListNode head) {
+
+        if (head == null || head.next == null) return head;
+
+        ListNode newHead = reverseList(head.next);
+
+        head.next.next = head;
+        head.next = null;
+
+        return newHead;
+    }
+
+https://blog.csdn.net/FX677588/article/details/72357389
+*/
