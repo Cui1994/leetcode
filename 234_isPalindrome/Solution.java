@@ -7,36 +7,31 @@ class ListNode {
 
 class Solution {
     public boolean isPalindrome(ListNode head) {
-        ListNode res = new ListNode(0);
-        res.next = head;
+        if (head == null || head.next == null) return true;
 
-        ListNode pre = res;
-        ListNode sec = res;
-        ListNode half = new ListNode(0);
+        ListNode pre = head;
+        ListNode cur = head;
+        ListNode half = null;
 
-        if (pre.next == null || pre.next.next == null) return true;
-
-        while (pre.next != null && pre.next.next != null) {
-            pre = pre.next.next;
-            sec = sec.next;
-            ListNode tmp = new ListNode(sec.val);
+        while (pre != null && pre.next != null) {
+            ListNode tmp = cur;
+            cur = cur.next;
+            pre = pre.next;
             tmp.next = half;
             half = tmp;
+            pre = pre.next;
         }
 
-        if (pre.next != null) sec = sec.next;
+        if (pre!=null) cur = cur.next;
 
-        sec = sec.next;
-
-        while (sec != null) {
-
-            if (sec.val != half.val) return false;
-
-            sec = sec.next;
+        while (cur != null) {
+            if (half.val != cur.val) return false;
+            cur = cur.next;
             half = half.next;
         }
 
         return true;
+
     }
 
     public static void main(String[] args) {
@@ -57,4 +52,4 @@ class Solution {
 
 
 
-// 时间复杂度和空间复杂度均为O(n),反转链表的部分有瑕疵，待解决。
+// 时间复杂度和空间复杂度均为O(n)
