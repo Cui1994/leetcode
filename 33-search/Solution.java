@@ -1,28 +1,32 @@
 class Solution {
     public int search(int[] nums, int target) {
-        int len = nums.length;
-        int i=0, j=len-1;
-        while (i<=j) {
-            int k = (i+j+1)/2;
-            if (nums[k] == target) return k;
-            if (nums[k] <= nums[j]) {
-                if (nums[k] < target && nums[j] >= target) i=k;
-                else j=k-1;
+        int low = 0;
+        int high = nums.length-1;
+        int mid;
+
+        while (low<=high) {
+            mid = low + ((high-low) >> 1);
+            if (nums[mid] == target) {
+                return mid;
+            }
+            else if (nums[mid] < target) {
+                if (nums[high] >= target || nums[mid] > nums[high]) low = mid + 1;
+                else high = mid-1;
             }
             else {
-                if (nums[k] > target && nums[i] <= target) j=k-1;
-                else i=k;
+                if (nums[low] <= target || nums[mid] < nums[low]) high = mid-1;
+                else low = mid+1;
             }
         }
-
         return -1;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = new int[]{3,1};
-        System.out.println(solution.search(nums, 3));
+
+        int[] nums = new int[]{4,5,6,7,8,1,2,3};
+
+        System.out.println(solution.search(nums, 8));
+
     }
 }
-
-// 二分查找的变形，注意边界情况
