@@ -1,67 +1,41 @@
 class Solution {
     public String longestPalindrome(String s) {
-        String result = "";
-        int i;
-        int len = s.length();
+        int n = s.length();
+        if (n == 0) {
+            return "";
+        }
 
-        for (i=0; i<len; i++) {
-            String target = "" + s.charAt(i);
-            int k=i-1;
-            int j=i+1;
-            while (j<len && s.charAt(i) == s.charAt(j)){
-                target = target + s.charAt(j);
-                j++;
-            }
-            while (k>=0 && j<len) {
-                if (s.charAt(k) == s.charAt(j)) {
-                    target = s.charAt(k) + target + s.charAt(j);
-                    k--;
-                    j++;
+        boolean[][] state = new boolean[n][n];
+
+        for (int i=n-1; i>=0; i--) {
+            state[i][i] = true;
+            for (int j=i+1; j<n; j++) {
+                if (i+1<n && j-1>0 && i+1 <= j-1) {
+                    if (state[i+1][j-1] && s.charAt(i) == s.charAt(j)) {
+                        state[i][j] = true;
+                    }
+                    else {
+                        state[i][j] = false;
+                    }
                 }
-                else break;
-            }
-
-            if (target.length() > result.length()) {
-                result = target;
+                else if (j == i+1 && s.charAt(i) == s.charAt(j)) {
+                    state[i][j] = true;
+                }
             }
         }
 
-        return result;
-    }
-
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println(solution.longestPalindrome("abbc"));
-    }
-}
-
-
-
-// 自认为解法无误，时间复杂度为n2
-
-/*
-中心扩展法
-public String longestPalindrome(String s) {
-    if (s == null || s.length() < 1) return "";
-    int start = 0, end = 0;
-    for (int i = 0; i < s.length(); i++) {
-        int len1 = expandAroundCenter(s, i, i);
-        int len2 = expandAroundCenter(s, i, i + 1);
-        int len = Math.max(len1, len2);
-        if (len > end - start) {
-            start = i - (len - 1) / 2;
-            end = i + len / 2;
+        int start = 0;
+        int end = 0;
+        for (int i=0; i<n; i++) {
+            for (int j=i; j<n; j++) {
+                if (state[i][j] && j-i > end-start) {
+                    start = i;
+                    end = j;
+                }
+            }
         }
-    }
-    return s.substring(start, end + 1);
-}
 
-private int expandAroundCenter(String s, int left, int right) {
-    int L = left, R = right;
-    while (L >= 0 && R < s.length() && s.charAt(L) == s.charAt(R)) {
-        L--;
-        R++;
+        return s.substring(start, end+1);
     }
-    return R - L - 1;
+
 }
-*/
